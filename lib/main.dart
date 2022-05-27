@@ -14,9 +14,9 @@ class App extends StatelessWidget {
       title: "Todo",
       color: Colors.grey,
       theme: ThemeData.dark(),
-      home: const TasksPage(),
+      home: TasksPage(),
       routes: {
-        TasksPage.routeName: (context) => const TasksPage(),
+        TasksPage.routeName: (context) => TasksPage(),
       },
     );
   }

@@ -49,16 +49,29 @@ class _TasksPageState extends State<TasksPage> {
         centerTitle: true,
       ),
       body: SafeArea(
-          child: ListView.builder(
-        itemCount: tasks.length,
-        itemBuilder: (BuildContext context, int index) {
-          return TaskCardWidget(
-            title: tasks[index].title,
-            id: tasks[index].id,
-            isDone: tasks[index].isDone,
-          );
-        },
-      )),
+        child: ListView.builder(
+          itemCount: tasks.length,
+          itemBuilder: (BuildContext context, int index) {
+            return TaskCardWidget(
+              onDelete: (int index) {
+                setState(() {
+                  tasks.removeAt(index);
+                });
+              },
+              title: tasks[index].title,
+              id: tasks[index].id,
+              isDone: tasks[index].isDone,
+              onEdit: (String title) {
+                setState(() {
+                  final taskId = tasks
+                      .indexWhere((element) => element.id == tasks[index].id);
+                  tasks[taskId].title = title;
+                });
+              },
+            );
+          },
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddTask,
         backgroundColor: Colors.blue,
@@ -103,7 +116,7 @@ class _TasksPageState extends State<TasksPage> {
                       hintText: "Enter task name..",
                       hintStyle: TextStyle(color: Colors.grey)),
                 ),
-                TextButton(
+                ElevatedButton(
                   onPressed: () {
                     _addTask(nameController.text);
                     Navigator.pop(context);
